@@ -1,6 +1,7 @@
 #include <iostream>
 #include "MacUILib.h"
 #include "objPos.h"
+#include "Food.h"
 // #include "GameMechs.h" do you not need this bc you have included it already in player.h
 
 #include "player.h" // so we can have access to file
@@ -12,6 +13,7 @@ using namespace std;
 // used to creating a pointer to point to the heap, pointer will be returned 
 Player *myPlayer; // Global pointer 
 GameMechs *myGM;
+Food *myFood;
 
 //  Declaring functions 
 void Initialize(void);
@@ -77,6 +79,8 @@ void DrawScreen(void)
 {
     MacUILib_clearScreen();  
     objPos playerPos = myPlayer -> getPlayerPos(); 
+    objPos tempFoodPos;
+    objPosArrayList* foodBucket = myFood->getFoodBucket();
     // MacUILib_printf("Player [x, y, symbol]: [%d][%d][%c]", playerPos.pos -> x,\
     //             playerPos.pos->y, playerPos.symbol);    
 
@@ -88,6 +92,14 @@ void DrawScreen(void)
             }
         }
         else{
+            //  for (int column = 0; column < myGM->getBoardSizeX(); column++){
+            
+            //     for (int i = 0; i< 5; i++){
+            //         if (row == item_bin[i].y && column == item_bin[i].x){
+            //             MacUILib_printf("%c", item_bin[i].symbol);
+            //             show ++;
+            //         }
+
             for (int column = 0; column < myGM->getBoardSizeX(); column++){
                 if (row == playerPos.pos->y && column == playerPos.pos->x){
                     MacUILib_printf("%c", playerPos.symbol);
@@ -102,6 +114,9 @@ void DrawScreen(void)
         }
         printf("\n");
     }
+
+
+    //Generating Ran
 
     // We will be using this to print the speed on the screen. 
     
@@ -130,7 +145,7 @@ void CleanUp(void)
 {
     MacUILib_clearScreen();  
 
-    //delete myGM; 
+    delete myGM; 
     delete myPlayer;  // deallocating 
 
 
