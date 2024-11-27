@@ -130,7 +130,7 @@ void CleanUp(void)
 {
     MacUILib_clearScreen();  
 
-    delete myGM; 
+    //delete myGM; 
     delete myPlayer;  // deallocating 
 
 
