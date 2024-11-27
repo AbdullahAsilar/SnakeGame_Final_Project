@@ -127,14 +127,14 @@ void Player::updatePlayerDir()
                 myFSMMode = DOWN;
                 break;
             }
-            else
-            {
-                myFSMMode = STOP; 
-                break; 
-            }
+            // else
+            // {
+            //     myFSMMode = STOP; 
+            //     break; 
+            // }
 
         default:
-            myFSMMode = STOP;
+            // myFSMMode = STOP;
             break;
     }
 

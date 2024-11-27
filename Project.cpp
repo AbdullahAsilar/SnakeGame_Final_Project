@@ -13,7 +13,7 @@ using namespace std;
 Player *myPlayer; // Global pointer 
 GameMechs *myGM;
 
-
+//  Declaring functions 
 void Initialize(void);
 void GetInput(void);
 void RunLogic(void);
@@ -28,7 +28,7 @@ int main(void)
 
     Initialize();
 
-    while(myGM->getExitFlagStatus()== false)  
+    while(myGM->getExitFlagStatus() == false)  
     {
         GetInput();
         RunLogic();
