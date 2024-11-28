@@ -1,6 +1,9 @@
 #include <iostream>
 #include "MacUILib.h"
 #include "objPos.h"
+#include "objPosArrayList.h"
+#include "GameMechs.h"
+#include "Player.h"
 #include "Food.h"
 // #include "GameMechs.h" do you not need this bc you have included it already in player.h
 
@@ -49,10 +52,13 @@ void Initialize(void)
     MacUILib_clearScreen();
 
     myGM = new GameMechs(); 
-    myPlayer = new Player(myGM); 
+    myPlayer = new Player(myGM, myFood); 
+    myFood =new Food(myGM);
+    
+    objPosArrayList* playerBody = myPlayer->getPlayerPos();
+    objPosArrayList* foodBucket = myFood->getFoodBucket();
 
-
-
+    myFood->generateFood(playerBody);
     // myGM->getExitFlagStatus() = false; Why dont you need this
 }
 
@@ -78,52 +84,68 @@ void RunLogic(void)
 void DrawScreen(void)
 {
     MacUILib_clearScreen();  
-    objPos playerPos = myPlayer -> getPlayerPos(); 
+    
+    objPos tempBody;
     objPos tempFoodPos;
+    objPosArrayList* playerBody = myPlayer->getPlayerPos();
     objPosArrayList* foodBucket = myFood->getFoodBucket();
+    
     // MacUILib_printf("Player [x, y, symbol]: [%d][%d][%c]", playerPos.pos -> x,\
     //             playerPos.pos->y, playerPos.symbol);    
 
+     for (int i = 0; i < myGM->getBoardSizeY(); i++)
+    {
+        for(int j = 0; j < myGM->getBoardSizeX(); j++)
+        {
+            for(int k = 0; k < playerBody->getSize(); k++)
+            {
+               tempBody =  playerBody->getElement(k);
 
-    for (int row =0; row < myGM->getBoardSizeY(); row ++){
-        if(row ==0 || row == (myGM->getBoardSizeY() - 1)){
-            for (int column = 0; column < myGM->getBoardSizeX(); column++){
-                MacUILib_printf("#");
+                if(tempBody.pos->x == j && tempBody.pos->y == i)
+                {
+                    MacUILib_printf("%c", tempBody.symbol);
+                    
+                    break;
+                }
             }
-        }
-        else{
-            //  for (int column = 0; column < myGM->getBoardSizeX(); column++){
+
             
-            //     for (int i = 0; i< 5; i++){
-            //         if (row == item_bin[i].y && column == item_bin[i].x){
-            //             MacUILib_printf("%c", item_bin[i].symbol);
-            //             show ++;
-            //         }
+         
 
-            for (int column = 0; column < myGM->getBoardSizeX(); column++){
-                if (row == playerPos.pos->y && column == playerPos.pos->x){
-                    MacUILib_printf("%c", playerPos.symbol);
-                }
-                else if (column == 0 || column == (myGM->getBoardSizeX() -1)){
-                    MacUILib_printf("#");
-                }
-                else{
-                    MacUILib_printf(" ");
+            for(int l = 0; l < foodBucket->getSize(); l++)
+            {
+                tempFoodPos = foodBucket->getElement(l);
+                if(tempFoodPos.pos->x == j && tempFoodPos.pos->y == i)
+                {
+                    MacUILib_printf("%c", tempFoodPos.symbol);
+                   
                 }
             }
+
+          
+
+
+            // draw border
+            if(i == 0 || i == (myGM->getBoardSizeY() - 1)|| j == 0 || j == (myGM->getBoardSizeX() - 1))
+            {
+                MacUILib_printf("%c", '#');
+            }
+            else 
+            {
+                MacUILib_printf("%c", ' ');
+            }
+            
         }
-        printf("\n");
+        MacUILib_printf("\n");
     }
 
-
+    MacUILib_printf("Press ESC to quit\n");
     //Generating Ran
 
     // We will be using this to print the speed on the screen. 
     
     // Adding some information for the user to see. 
-    MacUILib_printf("Current x Position = %d ", playerPos.pos->x);
-    MacUILib_printf(", Current y Position = %d\n", playerPos.pos->y);
-    
+   
     
 
     // MacUILib_printf("Fastest game speed = '%.3f', ", 0.045);

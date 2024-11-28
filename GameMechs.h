@@ -21,7 +21,7 @@ class GameMechs
         int boardSizeY;
         
 
-        objPos food;
+        //objPos food;
 
     public:
         GameMechs();
