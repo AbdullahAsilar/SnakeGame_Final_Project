@@ -84,7 +84,7 @@ void RunLogic(void)
 void DrawScreen(void)
 {
     MacUILib_clearScreen();  
-    
+    bool drawn;
     objPos tempBody;
     objPos tempFoodPos;
     objPosArrayList* playerBody = myPlayer->getPlayerPos();
@@ -93,10 +93,14 @@ void DrawScreen(void)
     // MacUILib_printf("Player [x, y, symbol]: [%d][%d][%c]", playerPos.pos -> x,\
     //             playerPos.pos->y, playerPos.symbol);    
 
-     for (int i = 0; i < myGM->getBoardSizeY(); i++)
+    static int count = 0; 
+    count ++; 
+    for (int i = 0; i < myGM->getBoardSizeY(); i++)
     {
         for(int j = 0; j < myGM->getBoardSizeX(); j++)
         {
+
+            drawn = false;
             for(int k = 0; k < playerBody->getSize(); k++)
             {
                tempBody =  playerBody->getElement(k);
@@ -104,12 +108,12 @@ void DrawScreen(void)
                 if(tempBody.pos->x == j && tempBody.pos->y == i)
                 {
                     MacUILib_printf("%c", tempBody.symbol);
-                    
+                    drawn =true;
                     break;
                 }
             }
 
-            
+            if(drawn) continue;
          
 
             for(int l = 0; l < foodBucket->getSize(); l++)
@@ -118,12 +122,12 @@ void DrawScreen(void)
                 if(tempFoodPos.pos->x == j && tempFoodPos.pos->y == i)
                 {
                     MacUILib_printf("%c", tempFoodPos.symbol);
-                   
+                    drawn = true;
                 }
             }
 
           
-
+            if(drawn) continue;
 
             // draw border
             if(i == 0 || i == (myGM->getBoardSizeY() - 1)|| j == 0 || j == (myGM->getBoardSizeX() - 1))
@@ -140,6 +144,8 @@ void DrawScreen(void)
     }
 
     MacUILib_printf("Press ESC to quit\n");
+    MacUILib_printf("%d", count);
+
     //Generating Ran
 
     // We will be using this to print the speed on the screen. 

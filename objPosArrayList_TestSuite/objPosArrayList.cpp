@@ -63,28 +63,22 @@ void objPosArrayList::removeTail()
 
 objPos objPosArrayList::getHeadElement() const
 {
-    objPos returnPos;
-    if(listSize>0){ //validation
-        returnPos.setObjPos(aList[0]);
+    if(listSize>0){
+        return aList[0];
     }
-    
-    return returnPos;
+         
 }
 
 objPos objPosArrayList::getTailElement() const
 {
-    objPos returnPos;
-    if(listSize>0){ //validation
-        returnPos.setObjPos(aList[listSize-1]);
+    if(listSize>0){
+        return aList[listSize-1];
     }
-    return returnPos;
 }
 
 objPos objPosArrayList::getElement(int index) const
 {
-    objPos returnPos;
     if(index>=0 && index<listSize){
-        returnPos.setObjPos(aList[index]);
+        return aList[index];
     }
-    return returnPos;
 }
