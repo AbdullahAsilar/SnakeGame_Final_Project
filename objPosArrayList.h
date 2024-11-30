@@ -8,8 +8,11 @@
 class objPosArrayList
 {
     private:
+        // pointer to the start of the objPos array
         objPos* aList;
+        // Number of valid elements in the list
         int listSize;
+        // The number of elements allocated on the heap array
         int arrayCapacity;
 
     public:

@@ -20,6 +20,7 @@ class Food
         int foodIndex; // dictates which food to spam depending on index
 
     public:
+        // We need to add a default constrcutor? 
         Food(GameMechs* thisGMRef);
         ~Food();
 

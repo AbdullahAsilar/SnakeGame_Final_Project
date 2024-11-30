@@ -11,29 +11,38 @@
 // constructor 
 objPosArrayList::objPosArrayList()
 {
-    aList = new objPos[ARRAY_MAX_CAP]; // 200 elements on the heap
-    listSize = 0; //no valid element in the list at the beginning
-    arrayCapacity = ARRAY_MAX_CAP; //array capacity is set to max
+    // 200 elements on the heap
+    aList = new objPos[ARRAY_MAX_CAP]; 
+    //no valid element in the list at the beginning
+    listSize = 0;
+    //array capacity is set to max 
+    arrayCapacity = ARRAY_MAX_CAP; 
 }
 
 // destructor. 
 objPosArrayList::~objPosArrayList()
 {
-    delete[] aList; //deleting the array from the memory
+    //deallocating the array from the heap
+    delete[] aList; 
 }
 
 int objPosArrayList::getSize() const
 {
+    // returns the size of the list 
     return listSize;
 }
 
 void objPosArrayList::insertHead(objPos thisPos)
 {
-    if(listSize<arrayCapacity){ //shifting elements, it is needed in order to add a header to the list index 0 should be empty
+// inserting at the head of the the list 
+//shifting elements, it is needed in order to add a header to the list and index 0 should be empty
+    if(listSize<arrayCapacity){ 
         for(int i = listSize; i>0; i--){
-            aList[i].setObjPos(aList[i-1]); // changing the object at index i-1 to index i
+            // Starting from the right-side and shifting one to the right
+            aList[i].setObjPos(aList[i-1]); 
         }
 
+        // Now there is space to add a value to the first index/head. 
         aList[0].setObjPos(thisPos);
 
         listSize++;
@@ -42,7 +51,8 @@ void objPosArrayList::insertHead(objPos thisPos)
 
 void objPosArrayList::insertTail(objPos thisPos)
 {
-    if(listSize < arrayCapacity){ // element shifting is not needed as we are adding at the end
+    // element shifting is not needed as we are adding at the end
+    if(listSize < arrayCapacity){ 
         aList[listSize].setObjPos(thisPos);
         listSize++;
     }
@@ -51,7 +61,8 @@ void objPosArrayList::insertTail(objPos thisPos)
 void objPosArrayList::removeHead()
 {
     if(listSize < arrayCapacity){ 
-        for(int i =0; i< listSize; i++){ //removing the head by shifting the element to the left
+        // removing the head by shifting the element to the left
+        for(int i =0; i< listSize; i++){ 
             aList[i].setObjPos(aList[i+1]);
         }
 
@@ -83,6 +94,7 @@ objPos objPosArrayList::getTailElement() const
 
 objPos objPosArrayList::getElement(int index) const
 {
+    // making sure that it is a valid index and then returning 
     if(index>=0 && index<listSize){
         return aList[index];
     }

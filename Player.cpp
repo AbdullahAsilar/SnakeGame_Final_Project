@@ -8,6 +8,10 @@ Player::Player(GameMechs* thisGMRef, Food* thisFREf)
     myFSMMode = STOP; // default state to stop 
     mainFoodRef= thisFREf;
 
+    // Having the program start at a rest position. 
+    level = L0;
+    delay = 0; 
+
     // more actions to be included
     // We divide by 2, so that we could start in the middle. 
     playerPos.pos ->x = mainGameMechsRef ->getBoardSizeX() /2;
@@ -15,6 +19,8 @@ Player::Player(GameMechs* thisGMRef, Food* thisFREf)
     playerPos.symbol = '*';
     objPos tempPos;
     tempPos.setObjPos(playerPos.pos ->x,playerPos.pos ->y,playerPos.symbol);
+    
+    // holds all of the elements on the heap. 
     playerPosList = new objPosArrayList();
     playerPosList->insertHead(tempPos);
 
@@ -34,6 +40,70 @@ objPosArrayList* Player::getPlayerPos() const
 {
     return playerPosList;
      // this is return by value. 
+}
+
+int Player::updatePlayerSpeed()
+{
+
+    char input = mainGameMechsRef->getInput();
+
+    switch (level)
+    {
+        case L0:
+            if (input == '='){
+                level = L1;
+                break;
+            }
+            delay = 125000;  // 125000 --> 0.125
+            break;
+        case L1:
+        // Whenever we press = it increases the speed, otherwise it will decrease the speed. 
+            if (input == '='){ 
+                level = L2;
+                break;
+            }
+            else if (input == '-'){
+                level = L0;
+                break;
+            }
+            delay = 105000;  // 105000 --> 0.105 // reducing the delay, hence making it faster. 
+            break;
+        case L2:
+            if (input == '='){
+                level = L3;
+                break;
+            }
+            else if (input == '-'){
+                level = L1;
+                break;
+            }
+            delay = 85000;  // 85000 --> 0.085
+            break;
+        
+        case L3:
+            if (input == '='){
+                level = L4;
+                break;
+            }
+            else if (input == '-'){
+                level = L2;
+                break;
+            }
+            delay = 65000;  // 65000 --> 0.065
+            break;
+        case L4:
+            if (input == '-'){
+                level = L3;
+                break;
+            }
+            delay = 45000;  // 45000 --> 0.045
+            break;
+        default:
+            delay = L0;
+            break;
+    }
+    return delay; 
+
 }
 
 void Player::updatePlayerDir()
@@ -102,153 +172,6 @@ void Player::updatePlayerDir()
 
 }
 
-
-
-//     switch (myFSMMode)
-//     {
-
-//         // This is the state
-//         case LEFT:
-//             // stopped = 0;
-//             // This is an event
-//             if(input == 'W' || input == 'w'){
-//                 myFSMMode = UP;
-//                 break;
-//             }
-
-//             else if(input == 'S' || input == 's'){
-//                 myFSMMode = DOWN;
-//                 break;
-//             }
-//         // This is the state
-//         case RIGHT:
-//             // stopped = 0;
-
-//             if(input == 'W' ||  input == 'w'){
-//                 myFSMMode = UP;
-//                 break;
-//             }
-
-//             else if(input == 'S' || input == 's'){
-//                 myFSMMode = DOWN;
-//                 break;
-//             }
-
-//         case UP:
-//             // stopped = 0;
-
-//             if(input == 'A' || input == 'a'){
-//                 myFSMMode = LEFT;
-//                 break;
-//             }
-
-//             else if(input == 'D' ||  input == 'd'){
-//                 myFSMMode = RIGHT;
-//                 break;
-//             }
-
-//         case DOWN:
-//             // stopped = 0;
-
-//             if(input == 'A' ||  input == 'a'){
-//                 myFSMMode = LEFT;
-//                 break;
-//             }
-
-//             else if(input == 'D' || input == 'd'){
-//                 myFSMMode = RIGHT;
-//                 break;
-//             }
-
-//         case STOP:
-//             // stopped = 1;
-//             if(input == 'A' || input == 'a'){
-//                 myFSMMode = LEFT;
-//                 break;
-//             }
-//             else if(input == 'D' || input == 'd'){
-//                 myFSMMode = RIGHT;
-//                 break;
-//             }
-//             else if(input == 'W' || input == 'w'){
-//                 myFSMMode = UP;
-//                 break;
-//             }
-//             else if(input == 'S' || input == 's'){
-//                 myFSMMode = DOWN;
-//                 break;
-//             }
-//             // else
-//             // {
-//             //     myFSMMode = STOP; 
-//             //     break; 
-//             // }
-
-//         default:
-//             // myFSMMode = STOP;
-//             break;
-//     }
-
-
-//     mainGameMechsRef->clearInput(); // resets input
-
-// }}
-
-// void Player::movePlayer()
-// {
-    // PPA3 Finite State Machine logic
-//     switch (myFSMMode)
-//     {
-//     case LEFT:
-//         playerPos.pos ->x --; // Shifting string left by 1 character
-//         if (playerPos.pos ->x < 1){
-//             playerPos.pos ->x = mainGameMechsRef->getBoardSizeX() - 2;
-//         }
-//         break;
-
-
-//     case RIGHT:
-//         playerPos.pos ->x ++; // Shifting string left by 1 character
-//         if (playerPos.pos ->x > mainGameMechsRef->getBoardSizeX() - 2){
-//             playerPos.pos ->x = 1;
-//         }
-//         break;
-
-
-//     case UP: 
-//         playerPos.pos ->y --; // Shifting string left by 1 character
-//         if (playerPos.pos ->y < 1){
-//             playerPos.pos ->y = mainGameMechsRef->getBoardSizeY() -2;
-//         }
-//         break;
-
-
-
-//     case DOWN: 
-//         playerPos.pos ->y ++; // Shifting string down by 1 character
-//         if (playerPos.pos ->y > mainGameMechsRef->getBoardSizeY() -2){
-//             playerPos.pos ->y = 1;
-//         }
-//         break;
-
-//     // case STOP: 
-
-//     //     playerPos.pos ->x = mainGameMechsRef ->getBoardSizeX() /2;
-//     //     playerPos.pos ->y = mainGameMechsRef ->getBoardSizeY() /2;
-//     //     playerPos.symbol = '*';
-
-//     default:
-//         break;
-//     }
-// }
-
-
-
-    
-    // mainGameMechsRef->clearInput(); // resets input
-
-
-
 void Player::movePlayer()
 {
     
@@ -300,6 +223,7 @@ void Player::movePlayer()
     default:
         break;
     }
+
 
     // new current head should be inserted to the head of the list
     playerPosList->insertHead(currentHead);

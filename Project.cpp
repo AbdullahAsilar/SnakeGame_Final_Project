@@ -1,3 +1,5 @@
+
+// Getting access to all files 
 #include <iostream>
 #include "MacUILib.h"
 #include "objPos.h"
@@ -5,18 +7,20 @@
 #include "GameMechs.h"
 #include "Player.h"
 #include "Food.h"
-// #include "GameMechs.h" do you not need this bc you have included it already in player.h
 
-#include "player.h" // so we can have access to file
 
 using namespace std;
 
-#define DELAY_CONST 100000
+// #define DELAY_CONST 100000
 
 // used to creating a pointer to point to the heap, pointer will be returned 
 Player *myPlayer; // Global pointer 
 GameMechs *myGM;
 Food *myFood;
+
+
+
+// Starting with no user input. 
 
 //  Declaring functions 
 void Initialize(void);
@@ -51,10 +55,14 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
 
+    
+
+    // each of the global pointers will point to the heap here. 
     myGM = new GameMechs(); 
     myPlayer = new Player(myGM, myFood); 
     myFood =new Food(myGM);
     
+
     objPosArrayList* playerBody = myPlayer->getPlayerPos();
     objPosArrayList* foodBucket = myFood->getFoodBucket();
 
@@ -72,6 +80,7 @@ void RunLogic(void)
 {
     
     // if (myGM->getInput() != 0){ 
+        myPlayer ->updatePlayerSpeed();
         myPlayer ->updatePlayerDir();  
         // myGM ->getInput();
         myGM->clearInput(); 
@@ -87,10 +96,12 @@ void DrawScreen(void)
     bool drawn;
     objPos tempBody;
     objPos tempFoodPos;
+
+    // holds the playerPosList 
     objPosArrayList* playerBody = myPlayer->getPlayerPos();
     objPosArrayList* foodBucket = myFood->getFoodBucket();
     
-    // MacUILib_printf("Player [x, y, symbol]: [%d][%d][%c]", playerPos.pos -> x,\
+    // MacUILib_printf("Player [x, y, symbol]: [%d][%d][%c]", playerPos.pos -> x,
     //             playerPos.pos->y, playerPos.symbol);    
 
     static int count = 0; 
@@ -130,7 +141,7 @@ void DrawScreen(void)
             if(drawn) continue;
 
             // draw border
-            if(i == 0 || i == (myGM->getBoardSizeY() - 1)|| j == 0 || j == (myGM->getBoardSizeX() - 1))
+            if(i == 0 || i == (myGM->getBoardSizeY() - 1)|| j == 0 || j == (myGM->getBoardSizeX() -1))
             {
                 MacUILib_printf("%c", '#');
             }
@@ -144,7 +155,8 @@ void DrawScreen(void)
     }
 
     MacUILib_printf("Press ESC to quit\n");
-    MacUILib_printf("%d", count);
+    // testing if the game runs
+    // MacUILib_printf("%d", count);
 
     //Generating Ran
 
@@ -153,19 +165,27 @@ void DrawScreen(void)
     // Adding some information for the user to see. 
    
     
+    // int speed = (myPlayer->delay)/(1000000.0);
 
-    // MacUILib_printf("Fastest game speed = '%.3f', ", 0.045);
-    // MacUILib_printf("Slowest game speed = '%.2f'\n", 0.0);
+    // if(myPlayer->delay > 0)
+    // {
+    //     MacUILib_printf("Current Game Speed: %.3f\n", speed);
+    // }
+    // else MacUILib_printf(" ");
 
-    // MacUILib_printf("To increase your speed press '=', To decrease your speed press '-'");
+    MacUILib_printf("Fastest game speed = '%.3f', ", 0.045);
+    MacUILib_printf("Slowest game speed = '%.2f'\n", 0.0);
 
+    MacUILib_printf("To increase your speed press '=', To decrease your speed press '-'");
+    
+    
 
 
 }
 
 void LoopDelay(void)
 {
-    MacUILib_Delay(DELAY_CONST); // 0.1s delay
+    MacUILib_Delay(myPlayer->delay); 
 }
 
 
