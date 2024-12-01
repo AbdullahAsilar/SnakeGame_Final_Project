@@ -31,8 +31,14 @@ class Player
         void updatePlayerDir();
         void movePlayer();
 
+        // bool checkFoodConsumption();
+        // void increasePlayerLength(); 
+
         // This will help with setting the speed of the game. 
-        int delay; 
+        int delay;
+
+        // objPos tempfoodpos1;
+        // objPosArrayList* food_bucket1; 
 
 
         // More methods to be added here    

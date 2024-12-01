@@ -1,4 +1,8 @@
 #include "Player.h"
+#include "Food.h"
+#include "objPosArrayList.h"
+
+ 
 
 
 // This would be your constructor. 
@@ -7,6 +11,11 @@ Player::Player(GameMechs* thisGMRef, Food* thisFREf)
     mainGameMechsRef = thisGMRef;
     myFSMMode = STOP; // default state to stop 
     mainFoodRef= thisFREf;
+
+     
+    // food_bucket1 = mainFoodRef->getFoodBucket(); 
+    
+    // Creating objPosArrayList for snake body coordinates 
 
     // Having the program start at a rest position. 
     level = L0;
@@ -20,10 +29,13 @@ Player::Player(GameMechs* thisGMRef, Food* thisFREf)
     objPos tempPos;
     tempPos.setObjPos(playerPos.pos ->x,playerPos.pos ->y,playerPos.symbol);
     
+
+
     // holds all of the elements on the heap. 
     playerPosList = new objPosArrayList();
     playerPosList->insertHead(tempPos);
 
+    // objPosArrayList* food_bucket1 = 
 
 }
 
@@ -41,6 +53,10 @@ objPosArrayList* Player::getPlayerPos() const
     return playerPosList;
      // this is return by value. 
 }
+
+
+
+
 
 int Player::updatePlayerSpeed()
 {
@@ -180,6 +196,8 @@ void Player::movePlayer()
     
     objPos currentHead= playerPosList->getHeadElement();
 
+    
+
     switch (myFSMMode)
     {
     case LEFT:
@@ -229,6 +247,37 @@ void Player::movePlayer()
     playerPosList->insertHead(currentHead);
     //then, remove tail
     playerPosList->removeTail();
+
+    
+    objPosArrayList *tempFoodlist = mainFoodRef -> getFoodBucket(); 
+    objPos tempfoodpos; 
+
+    // // starting off with no collsion. 
+    // bool collsion = false; 
+    // for (int i = 0; i < tempFoodlist->getSize(); i++)
+    // {
+    //     tempfoodpos = tempFoodlist->getElement(i);
+    //     // if (currentHead.pos->x == tempfoodpos.pos->x && currentHead.pos->y == tempfoodpos.pos->y)
+    //     if(currentHead.isPosEqual(&tempfoodpos))
+    //     {
+    //         mainFoodRef ->generateFood(playerPosList);
+    //         collsion = true; 
+    //         break; 
+    //     }
+
+    // }
+    // Checking if we have hit a food position. 
+    // for (int i = 0; i < food_bucket1->getSize(); i++)
+    // {
+    //     tempfoodpos1 = food_bucket1->getElement(i); 
+    //     if (currentHead.pos->x == tempfoodpos1.pos->x && currentHead.pos->y == tempfoodpos1.pos->y)
+    //     {
+    //        playerPosList->insertHead(currentHead); 
+    //     }
+    // }
+
 }   
+
+
 
 //More methods to be added

@@ -54,6 +54,9 @@ void Food::generateFood(objPosArrayList* blockOff){
         } 
         else
         {
+            
+        // generating random symbol. 
+
             while(repeat == 1)
             {   
                 
@@ -68,6 +71,7 @@ void Food::generateFood(objPosArrayList* blockOff){
             }
         }
         
+        // generating random x and y position. 
         while (repeat == 1)
         {
             // Choosing a random y and x position. 

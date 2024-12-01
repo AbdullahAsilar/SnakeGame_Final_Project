@@ -7,6 +7,7 @@
 #include "GameMechs.h"
 #include "Player.h"
 #include "Food.h"
+// #include "Food.cpp" cannot call on a non-header file. 
 
 
 using namespace std;
@@ -101,6 +102,13 @@ void DrawScreen(void)
     objPosArrayList* playerBody = myPlayer->getPlayerPos();
     objPosArrayList* foodBucket = myFood->getFoodBucket();
     
+// Debugging purposes. 
+    // for (int i = 0; i < foodBucket->getSize(); i++)
+    // {
+    //     tempFoodPos = foodBucket->getElement(i);
+    //     MacUILib_printf("Food position = %d\n", tempFoodPos.pos->x);
+    // }
+
     // MacUILib_printf("Player [x, y, symbol]: [%d][%d][%c]", playerPos.pos -> x,
     //             playerPos.pos->y, playerPos.symbol);    
 
@@ -155,6 +163,8 @@ void DrawScreen(void)
     }
 
     MacUILib_printf("Press ESC to quit\n");
+
+
     // testing if the game runs
     // MacUILib_printf("%d", count);
 
@@ -178,6 +188,14 @@ void DrawScreen(void)
 
     MacUILib_printf("To increase your speed press '=', To decrease your speed press '-'");
     
+    MacUILib_printf("\n");
+
+    // Debugging purposes. 
+    // for (int i = 0; i < foodBucket->getSize(); i++)
+    // {
+    //     tempFoodPos = foodBucket->getElement(i);
+    //     MacUILib_printf("Food position = %d\n", tempFoodPos.pos->x);
+    // }
     
 
 
@@ -195,6 +213,7 @@ void CleanUp(void)
 
     delete myGM; 
     delete myPlayer;  // deallocating 
+    delete myFood; 
 
 
     MacUILib_uninit();
