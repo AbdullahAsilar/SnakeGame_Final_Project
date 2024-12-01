@@ -1,6 +1,10 @@
+#include <iostream>
+#include "MacUILib.h"
+#include "objPos.h"
+#include "objPosArrayList.h"
+#include "GameMechs.h"
 #include "Player.h"
 #include "Food.h"
-#include "objPosArrayList.h"
 
  
 
@@ -195,7 +199,7 @@ void Player::movePlayer()
 
     
     objPos currentHead= playerPosList->getHeadElement();
-
+    
     
 
     switch (myFSMMode)
@@ -249,33 +253,47 @@ void Player::movePlayer()
     playerPosList->removeTail();
 
     
-    objPosArrayList *tempFoodlist = mainFoodRef -> getFoodBucket(); 
-    objPos tempfoodpos; 
+    objPos tempFood;
 
-    // // starting off with no collsion. 
-    // bool collsion = false; 
-    // for (int i = 0; i < tempFoodlist->getSize(); i++)
-    // {
-    //     tempfoodpos = tempFoodlist->getElement(i);
-    //     // if (currentHead.pos->x == tempfoodpos.pos->x && currentHead.pos->y == tempfoodpos.pos->y)
-    //     if(currentHead.isPosEqual(&tempfoodpos))
-    //     {
-    //         mainFoodRef ->generateFood(playerPosList);
-    //         collsion = true; 
-    //         break; 
+    objPosArrayList* foodBucket = mainFoodRef->getFoodBucket();
+
+
+
+    // starting off with no collsion. 
+    bool collsion = false; 
+    for (int i = 0; i < foodBucket->getSize(); i++)
+    {
+        tempFood = foodBucket->getElement(i);
+        // if (currentHead.pos->x == tempfoodpos.pos->x && currentHead.pos->y == tempfoodpos.pos->y)
+        if(currentHead.isPosEqual(&tempFood))
+        {
+            mainFoodRef ->generateFood(playerPosList);
+            collsion = true; 
+            break; 
+        }
+
+    }
+    //Checking if we have hit a food position. 
+    for (int i = 0; i < foodBucket->getSize(); i++)
+    {
+        tempFood = foodBucket->getElement(i); 
+        if (currentHead.pos->x == tempFood.pos->x && currentHead.pos->y == tempFood.pos->y)
+        {
+           playerPosList->insertHead(currentHead); 
+        }
+    }
+
+
+
+    // for(int i = 0; i<playerPosList->getSize(); i++){
+    //     objPos bodyPart = playerPosList->getElement(i);
+    //     if(currentHead.isPosEqual(&bodyPart)){
+    //         mainGameMechsRef->setLoseFlag();
+    //         mainGameMechsRef->setExitTrue();
+    //         return;
+
     //     }
-
     // }
-    // Checking if we have hit a food position. 
-    // for (int i = 0; i < food_bucket1->getSize(); i++)
-    // {
-    //     tempfoodpos1 = food_bucket1->getElement(i); 
-    //     if (currentHead.pos->x == tempfoodpos1.pos->x && currentHead.pos->y == tempfoodpos1.pos->y)
-    //     {
-    //        playerPosList->insertHead(currentHead); 
-    //     }
-    // }
-
 }   
 
 
