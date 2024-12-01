@@ -55,12 +55,14 @@ void Food::generateFood(objPosArrayList* blockOff){
         else
         {
             
-        // generating random symbol. 
+            
+        // generating symbol for mystery food. 
 
             while(repeat == 1)
             {   
+                char specialSymbols[] = {'!', '@'};
+                symRandChar = specialSymbols[rand() % 2];
                 
-                symRandChar = 33 + rand() % 93;
             // Checking if it doesnt equal the player symbol or #
                 if(symRandChar != 111 && symRandChar != 32)
                 {   
@@ -78,7 +80,7 @@ void Food::generateFood(objPosArrayList* blockOff){
             int yRand = 1 + rand() % (sizeY - 2); 
             int xRand = 1 + rand() % (sizeX - 2);
 
-            // Where are we creating the size of the list? 
+            
             for(int i = 0; i < blockOff->getSize(); i++)
             {
                 objPos tempBody = blockOff->getElement(i);

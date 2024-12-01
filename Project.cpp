@@ -61,7 +61,7 @@ void Initialize(void)
     // each of the global pointers will point to the heap here. 
     myGM = new GameMechs(); 
     myFood =new Food(myGM);
-    myPlayer = new Player(myGM, myFood); 
+    myPlayer = new Player(myGM, myFood, myPlayer); 
     
     
 
@@ -81,16 +81,11 @@ void GetInput(void)
 void RunLogic(void)
 {
     
-    // if (myGM->getInput() != 0){ 
-        myPlayer ->updatePlayerSpeed();
-        myPlayer ->updatePlayerDir();  
-        // myGM ->getInput();
-        myGM->clearInput(); 
-        myPlayer ->movePlayer();
-    // }
 
-    
-    
+    myPlayer ->updatePlayerSpeed();
+    myPlayer ->updatePlayerDir();  
+    myPlayer ->movePlayer();
+    myGM->clearInput();
 
 }
 
@@ -188,11 +183,10 @@ void DrawScreen(void)
 
     MacUILib_printf("Fastest game speed = '%.3f', ", 0.045);
     MacUILib_printf("Slowest game speed = '%.2f'\n", 0.0);
-
-    MacUILib_printf("To increase your speed press '=', To decrease your speed press '-'");
-    MacUILib_printf("Mystery Food = not 'o': (+10 score, +0 length) OR (+5 score, +5 length) \n");
+    MacUILib_printf("To increase your speed press '=', To decrease your speed press '-'\n");
+    MacUILib_printf("Mystery Food = '!': (+10 score, +0 length) OR ='@' (+5 score, +5 length) \n");
     MacUILib_printf("Score: %d\n", myGM->getScore());
-    
+    MacUILib_printf("Size: %d\n", playerBody->getSize());
     MacUILib_printf("\n");
 
     // Debugging purposes. 

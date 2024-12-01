@@ -23,23 +23,18 @@ class Player
 
         
 
-        Player(GameMechs* thisGMRef, Food* thisFREf); // Constructor 
+        Player(GameMechs* thisGMRef, Food* thisFREf, Player* thisPRef); // Constructor 
         ~Player(); // Destructor 
 
         objPosArrayList* getPlayerPos() const; // Upgrade this in iteration 3.       
         int updatePlayerSpeed(); 
         void updatePlayerDir();
         void movePlayer();
-
-        // bool checkFoodConsumption();
-        // void increasePlayerLength(); 
+        bool checkSelfCollision();
+        void increasePlayerLength();
 
         // This will help with setting the speed of the game. 
         int delay;
-
-        // objPos tempfoodpos1;
-        // objPosArrayList* food_bucket1; 
-
 
         // More methods to be added here    
 
@@ -54,6 +49,7 @@ class Player
         // Need a reference to the Main Game Mechanisms
         GameMechs* mainGameMechsRef;
         Food* mainFoodRef;
+        Player* mainPlayerRef;
 };
 
 #endif

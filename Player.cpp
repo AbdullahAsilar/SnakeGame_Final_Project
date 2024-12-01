@@ -10,14 +10,15 @@
 
 
 // This would be your constructor. 
-Player::Player(GameMechs* thisGMRef, Food* thisFREf)
+Player::Player(GameMechs* thisGMRef, Food* thisFREf, Player* thisPRef)
 {
     mainGameMechsRef = thisGMRef;
     myFSMMode = STOP; // default state to stop 
     mainFoodRef= thisFREf;
+    mainPlayerRef = thisPRef;
 
      
-    // food_bucket1 = mainFoodRef->getFoodBucket(); 
+    
     
     // Creating objPosArrayList for snake body coordinates 
 
@@ -39,7 +40,7 @@ Player::Player(GameMechs* thisGMRef, Food* thisFREf)
     playerPosList = new objPosArrayList();
     playerPosList->insertHead(tempPos);
 
-    // objPosArrayList* food_bucket1 = 
+    
 
 }
 
@@ -142,17 +143,9 @@ void Player::updatePlayerDir()
                 mainGameMechsRef->setExitTrue();
                 break;
                 
-            // Add more key processing here
-            // Add more key processing here
-            // Add more key processing here    
             default:
                 break;
-        // }
-        // input = 0;s
-    // }
-    // switch (input)  
-    // {
-        
+       
         case 'w':
             if (myFSMMode != DOWN){
                     myFSMMode = UP;
@@ -191,6 +184,8 @@ void Player::updatePlayerDir()
     mainGameMechsRef->clearInput();
 
 }
+
+
 
 void Player::movePlayer()
 {
@@ -236,14 +231,25 @@ void Player::movePlayer()
         }
         break;
 
-    // case STOP: 
-        
-    //     playerPos.pos ->x = mainGameMechsRef ->getBoardSizeX() /2;
-    //     playerPos.pos ->y = mainGameMechsRef ->getBoardSizeY() /2;  
-    //     playerPos.symbol = '*';                
-        
+    
     default:
         break;
+    }
+    objPos tempFood;
+    objPosArrayList* foodBucket = mainFoodRef->getFoodBucket();
+    
+
+    //Check for self-collision
+    for (int i = 1; i < playerPosList->getSize(); i++) // Start from index 1 to skip the head
+    {
+        objPos bodyPart = playerPosList->getElement(i);
+        if (currentHead.isPosEqual(&bodyPart))
+        {
+            mainGameMechsRef->setLoseFlag(); // Set the lose flag
+            mainGameMechsRef->setExitTrue(); // Exit the game
+            return; // End the movePlayer method early
+
+        }
     }
 
 
@@ -251,13 +257,8 @@ void Player::movePlayer()
     playerPosList->insertHead(currentHead);
     //then, remove tail
     playerPosList->removeTail();
-
     
-    objPos tempFood;
-
-    objPosArrayList* foodBucket = mainFoodRef->getFoodBucket();
-
-
+    
 
     // starting off with no collsion. 
     bool collsion = false; 
@@ -267,35 +268,49 @@ void Player::movePlayer()
         // if (currentHead.pos->x == tempfoodpos.pos->x && currentHead.pos->y == tempfoodpos.pos->y)
         if(currentHead.isPosEqual(&tempFood))
         {
+
+            if (tempFood.symbol == 'o') {
+                mainGameMechsRef->incrementScore();
+                playerPosList->insertHead(currentHead);
+            } 
+            else if (tempFood.symbol == '!') {
+                for(int s = 0; s < 10; s++)
+                    {
+                        mainGameMechsRef->incrementScore();
+                    } // No length increase
+            } 
+            else if (tempFood.symbol == '@') {
+                for(int s = 0; s < 5; s++)
+                    {
+                        mainGameMechsRef->incrementScore();
+                    }
+
+                    for(int s = 0; s < 5; s++)
+                    {
+                        playerPosList->insertHead(currentHead);
+                    }
+            }
+
+            for(int g = 0; g < 5; g++) // empties food bucket
+            {
+                foodBucket->removeTail();
+            }
+           
             mainFoodRef ->generateFood(playerPosList);
+            //playerPosList->insertHead(currentHead); 
+            
             collsion = true; 
             break; 
         }
+        
 
     }
-    //Checking if we have hit a food position. 
-    for (int i = 0; i < foodBucket->getSize(); i++)
-    {
-        tempFood = foodBucket->getElement(i); 
-        if (currentHead.pos->x == tempFood.pos->x && currentHead.pos->y == tempFood.pos->y)
-        {
-           playerPosList->insertHead(currentHead); 
-        }
-    }
-
-
-
-    // for(int i = 0; i<playerPosList->getSize(); i++){
-    //     objPos bodyPart = playerPosList->getElement(i);
-    //     if(currentHead.isPosEqual(&bodyPart)){
-    //         mainGameMechsRef->setLoseFlag();
-    //         mainGameMechsRef->setExitTrue();
-    //         return;
-
-    //     }
-    // }
+            
 }   
 
-
-
-//More methods to be added
+void Player::increasePlayerLength()
+{
+    objPos tempHead;
+    tempHead=playerPosList->getHeadElement();
+    playerPosList->insertHead(tempHead);
+}
