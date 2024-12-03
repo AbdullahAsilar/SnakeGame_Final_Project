@@ -64,14 +64,16 @@ void Initialize(void)
     myPlayer = new Player(myGM, myFood, myPlayer); 
     
     
-
+    // Creating pointers to a list of snake body and food
     objPosArrayList* playerBody = myPlayer->getPlayerPos();
     objPosArrayList* foodBucket = myFood->getFoodBucket();
 
+    // Generating food
     myFood->generateFood(playerBody);
     // myGM->getExitFlagStatus() = false; Why dont you need this
 }
 
+// Get the user input
 void GetInput(void)
 {
     myGM->getInput(); 
@@ -81,16 +83,18 @@ void GetInput(void)
 void RunLogic(void)
 {
     
-
+    // Updating all player requirements, like speed and direction. 
     myPlayer ->updatePlayerSpeed();
-    myPlayer ->updatePlayerDir();  
+    myPlayer ->updatePlayerDir(); 
+    // Getting the player to move according to pervious speed and direction changes.  
     myPlayer ->movePlayer();
+    // Clearing the input
     myGM->clearInput();
 
 }
 
 void DrawScreen(void)
-{
+{   
     MacUILib_clearScreen();  
     bool drawn;
     objPos tempBody;
@@ -112,16 +116,18 @@ void DrawScreen(void)
 
     static int count = 0; 
     count ++; 
+    // Drawing the game board, 
     for (int i = 0; i < myGM->getBoardSizeY(); i++)
     {
         for(int j = 0; j < myGM->getBoardSizeX(); j++)
         {
 
             drawn = false;
+            // Checking if we are at the location of any of the player body. 
             for(int k = 0; k < playerBody->getSize(); k++)
             {
-               tempBody =  playerBody->getElement(k);
-
+                tempBody =  playerBody->getElement(k);
+                // If there is a match, then the player body will be printed 
                 if(tempBody.pos->x == j && tempBody.pos->y == i)
                 {
                     MacUILib_printf("%c", tempBody.symbol);
@@ -132,7 +138,7 @@ void DrawScreen(void)
 
             if(drawn) continue;
          
-
+            // printing each of the food's items to be eaten
             for(int l = 0; l < foodBucket->getSize(); l++)
             {
                 tempFoodPos = foodBucket->getElement(l);
@@ -143,10 +149,10 @@ void DrawScreen(void)
                 }
             }
 
-          
+
             if(drawn) continue;
 
-            // draw border
+            // Drawing the boarder of the game 
             if(i == 0 || i == (myGM->getBoardSizeY() - 1)|| j == 0 || j == (myGM->getBoardSizeX() -1))
             {
                 MacUILib_printf("%c", '#');
@@ -160,26 +166,9 @@ void DrawScreen(void)
         MacUILib_printf("\n");
     }
 
+
     MacUILib_printf("Press ESC to quit\n");
 
-
-    // testing if the game runs
-    // MacUILib_printf("%d", count);
-
-    //Generating Ran
-
-    // We will be using this to print the speed on the screen. 
-    
-    // Adding some information for the user to see. 
-   
-    
-    // int speed = (myPlayer->delay)/(1000000.0);
-
-    // if(myPlayer->delay > 0)
-    // {
-    //     MacUILib_printf("Current Game Speed: %.3f\n", speed);
-    // }
-    // else MacUILib_printf(" ");
 
     MacUILib_printf("Fastest game speed = '%.3f', ", 0.045);
     MacUILib_printf("Slowest game speed = '%.2f'\n", 0.0);
@@ -201,7 +190,8 @@ void DrawScreen(void)
 }
 
 void LoopDelay(void)
-{
+{   
+    // This helps determine how fast the snake moves 
     MacUILib_Delay(myPlayer->delay); 
 }
 
@@ -210,10 +200,12 @@ void CleanUp(void)
 {
     MacUILib_clearScreen();  
 
-
+    // Setting different end game conditions. 
     if(myGM->getLoseFlagStatus() == true){
         MacUILib_printf("You Lose! You ate yourself! \n");
-    } else {
+    } 
+    else 
+    {
         MacUILib_printf("You Quit! You left the game! \n");
     }
 

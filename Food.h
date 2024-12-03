@@ -1,8 +1,7 @@
 #ifndef FOOD_H
 #define FOOD_H
-// This header file declares the class that creates the 
-// objects on the screen that can interact or be eaten by our snake
 
+// gaining access to other files. 
 #include <cstdlib>
 #include <time.h>
 #include "objPos.h"
@@ -14,20 +13,25 @@ using namespace std;
 class Food
 {
     private:
+        // private data members
         objPos foodPos;
         GameMechs* MechsRef;
         objPosArrayList* foodBucket;
         int foodIndex; // dictates which food to spam depending on index
 
     public:
-        // We need to add a default constrcutor? 
+        // Construtors/destructors.  
         Food(GameMechs* thisGMRef);
         ~Food();
 
+        // Decaring setters 
         void setFoodIndex(int i);
+
+        // Decaring getters/ other methods 
         int getFoodIndex();
 
         void generateFood(objPosArrayList* blockOff);
+
         objPosArrayList* getFoodBucket();
 };
 

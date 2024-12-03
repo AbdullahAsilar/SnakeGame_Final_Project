@@ -1,10 +1,5 @@
 #include "objPosArrayList.h"
 
-// Paste your Tested implementation here.
-// Paste your Tested implementation here.
-// Paste your Tested implementation here.
-
-
 // Check lecture contents on general purpose array list construction, 
 // and modify it to support objPos array list construction.
 
@@ -70,6 +65,7 @@ void objPosArrayList::removeHead()
     }
 }
 
+// Removing the tail
 void objPosArrayList::removeTail()
 {
     if(listSize< arrayCapacity){
@@ -77,6 +73,7 @@ void objPosArrayList::removeTail()
     }
 }
 
+// getting head element 
 objPos objPosArrayList::getHeadElement() const
 {
     if(listSize>0){
@@ -85,6 +82,7 @@ objPos objPosArrayList::getHeadElement() const
          
 }
 
+// getting tail element 
 objPos objPosArrayList::getTailElement() const
 {
     if(listSize>0){
@@ -92,6 +90,7 @@ objPos objPosArrayList::getTailElement() const
     }
 }
 
+// getting an element at a specified index. 
 objPos objPosArrayList::getElement(int index) const
 {
     // making sure that it is a valid index and then returning 

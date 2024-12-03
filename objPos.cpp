@@ -1,5 +1,6 @@
 #include "objPos.h"
 
+// Constructor 
 objPos::objPos()
 {
     pos = new Pos;
@@ -8,6 +9,7 @@ objPos::objPos()
     symbol = 0; //NULL
 }
 
+// Special constructor 
 objPos::objPos(int xPos, int yPos, char sym)
 {
     pos = new Pos;
@@ -69,6 +71,7 @@ void objPos::setObjPos(int xPos, int yPos, char sym)
     symbol = sym;
 }
 
+// Used to get the objects position
 objPos objPos::getObjPos() const
 {
     objPos returnPos;
@@ -79,11 +82,13 @@ objPos objPos::getObjPos() const
     return returnPos;
 }
 
+// Used to get the object symbol
 char objPos::getSymbol() const
 {
     return symbol;
 }
 
+// Comparing if the x and y values 
 bool objPos::isPosEqual(const objPos* refPos) const
 {
     return (refPos->pos->x == pos->x && refPos->pos->y == pos->y);
@@ -91,6 +96,7 @@ bool objPos::isPosEqual(const objPos* refPos) const
 
 char objPos::getSymbolIfPosEqual(const objPos* refPos) const
 {
+    // if the positions are equal then reutrn the symbol of it aswell. 
     if(isPosEqual(refPos))
         return symbol;
     else

@@ -30,8 +30,10 @@ class Player
         int updatePlayerSpeed(); 
         void updatePlayerDir();
         void movePlayer();
-        bool checkSelfCollision();
-        void increasePlayerLength();
+
+        // Didnt end up using below methods
+        // bool checkSelfCollision(); 
+        // void increasePlayerLength();
 
         // This will help with setting the speed of the game. 
         int delay;

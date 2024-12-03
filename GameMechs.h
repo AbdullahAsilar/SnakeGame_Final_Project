@@ -12,6 +12,8 @@ using namespace std;
 class GameMechs
 {
     private:
+
+        // Fields 
         char input;
         bool exitFlag;
         bool loseFlag;
@@ -24,10 +26,13 @@ class GameMechs
         //objPos food;
 
     public:
+
+        // Constructors / destructors. 
         GameMechs();
         GameMechs(int boardX, int boardY);
         ~GameMechs(); // is this one needed at all? Why or why not?
         
+        // Below are the methods we will use. 
         bool getExitFlagStatus() const; 
         void setExitTrue();
         bool getLoseFlagStatus() const;
@@ -45,7 +50,7 @@ class GameMechs
 
         
         
-        // More methods should be added here
+        // More methods should be added here - already added. 
 };
 
 #endif

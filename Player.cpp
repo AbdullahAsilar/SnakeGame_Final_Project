@@ -14,7 +14,7 @@ Player::Player(GameMechs* thisGMRef, Food* thisFREf, Player* thisPRef)
 {
     mainGameMechsRef = thisGMRef;
     myFSMMode = STOP; // default state to stop 
-    mainFoodRef= thisFREf;
+    mainFoodRef= thisFREf; 
     mainPlayerRef = thisPRef;
 
      
@@ -62,12 +62,13 @@ objPosArrayList* Player::getPlayerPos() const
 
 
 
-
+// this function sets the speed of the snake
 int Player::updatePlayerSpeed()
 {
 
     char input = mainGameMechsRef->getInput();
-
+    // using = to increase speed
+    // using - to decrease speed 
     switch (level)
     {
         case L0:
@@ -123,7 +124,7 @@ int Player::updatePlayerSpeed()
             delay = L0;
             break;
     }
-    return delay; 
+    return delay; // the delay will set the speed of the snake
 
 }
 
@@ -181,6 +182,7 @@ void Player::updatePlayerDir()
         input = 0;
     }
     }
+    // Clearing the output 
     mainGameMechsRef->clearInput();
 
 }
@@ -192,7 +194,7 @@ void Player::movePlayer()
     
     // PPA3 Finite State Machine logic
 
-    
+    // Current head 
     objPos currentHead= playerPosList->getHeadElement();
     
     
@@ -200,7 +202,7 @@ void Player::movePlayer()
     switch (myFSMMode)
     {
     case LEFT:
-        currentHead.pos ->x --; // Shifting string left by 1 character
+        currentHead.pos ->x --; // Shifting snake left by 1 character
         if (currentHead.pos ->x < 1){
             currentHead.pos ->x = mainGameMechsRef->getBoardSizeX() - 2;
         }
@@ -208,7 +210,7 @@ void Player::movePlayer()
 
     
     case RIGHT:
-        currentHead.pos ->x ++; // Shifting string left by 1 character
+        currentHead.pos ->x ++; // Shifting snake right by 1 character
         if (currentHead.pos ->x > mainGameMechsRef->getBoardSizeX() - 2){
             currentHead.pos ->x = 1;
         }
@@ -216,7 +218,7 @@ void Player::movePlayer()
 
         
     case UP: 
-        currentHead.pos ->y --; // Shifting string left by 1 character
+        currentHead.pos ->y --; // Shifting snake up by 1 character
         if (currentHead.pos ->y < 1){
             currentHead.pos ->y = mainGameMechsRef->getBoardSizeY() -2;
         }
@@ -225,7 +227,7 @@ void Player::movePlayer()
         
 
     case DOWN: 
-        currentHead.pos ->y ++; // Shifting string down by 1 character
+        currentHead.pos ->y ++; // Shifting snake down by 1 character
         if (currentHead.pos ->y > mainGameMechsRef->getBoardSizeY() -2){
             currentHead.pos ->y = 1;
         }
@@ -235,13 +237,17 @@ void Player::movePlayer()
     default:
         break;
     }
+
+    
     objPos tempFood;
+    // getting access to foodbucket 
     objPosArrayList* foodBucket = mainFoodRef->getFoodBucket();
     
 
     //Check for self-collision
     for (int i = 1; i < playerPosList->getSize(); i++) // Start from index 1 to skip the head
     {
+
         objPos bodyPart = playerPosList->getElement(i);
         if (currentHead.isPosEqual(&bodyPart))
         {
@@ -262,13 +268,14 @@ void Player::movePlayer()
 
     // starting off with no collsion. 
     bool collsion = false; 
+    // looping through the size of the bucket 
     for (int i = 0; i < foodBucket->getSize(); i++)
     {
         tempFood = foodBucket->getElement(i);
         // if (currentHead.pos->x == tempfoodpos.pos->x && currentHead.pos->y == tempfoodpos.pos->y)
         if(currentHead.isPosEqual(&tempFood))
         {
-
+            // If it is a non-special food, we increament score by 1 and increase size of snake 
             if (tempFood.symbol == 'o') {
                 mainGameMechsRef->incrementScore();
                 playerPosList->insertHead(currentHead);
@@ -279,6 +286,7 @@ void Player::movePlayer()
                         mainGameMechsRef->incrementScore();
                     } // No length increase
             } 
+            // Incrementing the score when '@' is ate, and increasing snake size by 5
             else if (tempFood.symbol == '@') {
                 for(int s = 0; s < 5; s++)
                     {
@@ -291,11 +299,13 @@ void Player::movePlayer()
                     }
             }
 
-            for(int g = 0; g < 5; g++) // empties food bucket
+
+            for(int g = 0; g < 5; g++) // empties food bucket so old food doesn't remain 
             {
                 foodBucket->removeTail();
             }
-           
+
+            // generating more food after emptying food bucket. 
             mainFoodRef ->generateFood(playerPosList);
             //playerPosList->insertHead(currentHead); 
             
@@ -308,9 +318,3 @@ void Player::movePlayer()
             
 }   
 
-void Player::increasePlayerLength()
-{
-    objPos tempHead;
-    tempHead=playerPosList->getHeadElement();
-    playerPosList->insertHead(tempHead);
-}

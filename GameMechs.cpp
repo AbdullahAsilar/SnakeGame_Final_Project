@@ -1,8 +1,8 @@
 #include "GameMechs.h"
 #include "MacUILib.h"
 
-// This should be finsihed. 
 
+// Default Constructor 
 GameMechs::GameMechs()
 {
     input = 0;
@@ -13,6 +13,7 @@ GameMechs::GameMechs()
     boardSizeY = 15;
 }
 
+// Special constructor  
 GameMechs::GameMechs(int boardX, int boardY)
 {
     input = 0;
@@ -23,13 +24,14 @@ GameMechs::GameMechs(int boardX, int boardY)
     boardSizeY = boardY;
 }
 
-// do you need a destructor?
+// do you need a destructor?  no because we didnt place anything on the heap. 
 GameMechs::~GameMechs()
 {
     // nothing on the heap 
     // Destructor can stay empty for now
 }
 
+// Defining getter functions. 
 bool GameMechs::getExitFlagStatus() const
 {
     return exitFlag;
@@ -43,7 +45,7 @@ bool GameMechs::getLoseFlagStatus() const
 
 char GameMechs::getInput() // removed const
 {   
-    // Should this be placed here?    
+    // getting the user input and then returning it.    
     if (MacUILib_hasChar() != 0){
         // input will hold the input of the users key presses.
         input = MacUILib_getChar();
@@ -51,6 +53,7 @@ char GameMechs::getInput() // removed const
     return input;
 }
 
+// Functions below are self explanitory 
 int GameMechs::getScore() const
 {
     return score; 
@@ -71,7 +74,7 @@ int GameMechs::getBoardSizeY() const
     return boardSizeY;
 }
 
-
+// Defining setter functions. 
 void GameMechs::setExitTrue()
 {
     exitFlag = true;
@@ -86,8 +89,6 @@ void GameMechs::setInput(char this_input)
 {
     input = this_input; 
 
-    
-
 }
 
 void GameMechs::clearInput()
@@ -95,4 +96,4 @@ void GameMechs::clearInput()
     input = 0; // reseting input 
 }
 
-// More methods should be added here
+// More methods should be added here - already added. 

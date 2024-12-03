@@ -16,15 +16,19 @@ class objPosArrayList
         int arrayCapacity;
 
     public:
+
+        // constructors/ destructors 
         objPosArrayList();
         ~objPosArrayList();
 
+        // Methods
         int getSize() const;
         void insertHead(objPos thisPos);
         void insertTail(objPos thisPos);
         void removeHead();
         void removeTail();
         
+        // Adding more methods with objPos return type
         objPos getHeadElement() const;
         objPos getTailElement() const;
         objPos getElement(int index) const;
