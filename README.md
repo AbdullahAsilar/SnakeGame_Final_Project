@@ -138,14 +138,6 @@ This project demonstrates proficiency in:
 - **Software Engineering**: Iterative development, testing, documentation
 - **Problem Solving**: Algorithm optimization, edge case handling
 
-## 🔮 Future Enhancements
-
-- **Advanced AI**: Pathfinding algorithms for autonomous mode
-- **Multiplayer Support**: Network-based competitive gameplay  
-- **Enhanced Graphics**: SDL integration while maintaining OOD core
-- **Persistent Storage**: High score tracking and replay system
-- **Level Design**: Obstacles and custom board layouts
-
 ---
 
 *Note: This implementation prioritizes educational value and clean code architecture over performance optimization, making it ideal for demonstrating OOP principles and C++ best practices.*
